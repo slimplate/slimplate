@@ -6,9 +6,6 @@
     "admin": "npm run start --workspace=packages/admin-static"
   },
   "license": "MIT",
-  "devDependencies": {
-    "lerna": "^6.5.1"
-  },
   "workspaces": [
     "packages/*"
   ]
