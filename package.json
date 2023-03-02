@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "admin": "npm run start --workspace=packages/admin-static"
+    "admin": "npm run start --workspace=packages/admin-static",
+    "build:react-flowbite-github": "npm run build --workspace=packages/react-flowbite-github"
   },
   "license": "MIT",
   "workspaces": [

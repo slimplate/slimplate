@@ -1,5 +1,35 @@
 {
   "name": "@slimplate/react-flowbite-github",
   "version": "0.0.0",
-  "main": "index.jsx"
+  "type": "module",
+  "dependencies": {
+    "@slimplate/react-github": "0.0.0",
+    "@slimplate/utils": "0.0.0",
+    "classnames": "^2.3.2",
+    "flowbite": "^1.6.3",
+    "flowbite-react": "^0.3.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tabler-icons-react": "^1.56.0",
+    "template-templates": "^1.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "main": "./dist/react-flowbite-github.umd.cjs",
+  "module": "./dist/react-flowbite-github.js",
+  "exports": {
+    ".": {
+      "import": "./dist/react-flowbite-github.js",
+      "require": "./dist/react-flowbite-github.umd.cjs"
+    }
+  }
 }
