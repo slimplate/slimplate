@@ -1,0 +1,13 @@
+{
+  "name": "@slimplate/mono",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {},
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

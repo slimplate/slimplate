@@ -1,0 +1,22 @@
+---
+title: Slimplate Static
+---
+
+Slimplate can be dropped into a static site, and used as a standalone content-admin. You won't see inline editing (like with [nextjs](next)) but you can use virtually any site-generator that uses markdown/MDX files with this (gatsby, jekyll, etc.)
+
+
+You can quickly setup a pre-configuured demo-site with this command, just follow the prompts:
+
+```
+npm init slimplate mysite
+```
+
+# DIY
+
+If you want to do the steps yourtself, more manually, here is a basic path to a static site:
+
+1. Setup a backend, following the directions for [cfghserver](cfghserver) or [vercelghserver](https://github.com/slimplate/vercelghserver)
+2. Get the static HTML file [here](NEED_LINK) and put it whatever the static root of your website is. [Configure it](config/static)
+3. Push your site to github
+4. Start editing!
+

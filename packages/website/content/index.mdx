@@ -1,0 +1,29 @@
+---
+title: Slimplate
+---
+
+You have quite a few options when it comes to setting up a Slimplate site. We are into [Convention Over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration), in general. Slimplate is all about choices, and configuring things the way you want them, so you can combine ideas from any of these paths to make things work exaclty how you want.
+
+Even though we wrote it in javascript, using react, you can use it to manage any kind of site.
+
+Even though Simplate tries very hard to stay client-side (running git in browser, etc) there are still a few things that are best server-side (for security.)
+
+You will need a few parts to actually edit content:
+
+1. Something to act as a CORS proxy for Github.
+2. Something to handle Github authentication
+3. A website with a `.slimplate.json` in the root.
+
+Both backend-components can be put on a single Cloudflare worker, for free with [cfghserver](https://github.com/slimplate/cfghserver) or vercel [vercelghserver](https://github.com/slimplate/vercelghserver). If you're going to use vercel, it's recommended you checkout [next starter](next), as it's a complete builder, backend, etc, all in one, and it's pre-configured for mega-easy deploy & management.
+
+You can quickly setup a pre-configured demo-site with this command, just follow the prompts:
+
+```
+npm init slimplate mysite
+```
+
+Learn more about a few paths here:
+
+- [next](nextjs) - You want to use nextjs. This is good for an existing site in next, or if you want server-side rendering options, or use the advanced pre-rendering capabilities of nextjs. If you deploy on vercel, it's very easy to get a pretty nice site up-and-running quickly, and they have a generous free-tier.
+- [À la carte](alacarte) - You want to just use parts of Slimplate to set things up how you want them. This is a good option if you already have a specific plan for how things are setup, want to manage an existing site, or need to heavily customize things, quickly.
+- [static](static) - You want a static site, that you can just drop an admin HTML file in, and be able to edit your content. You don't need inline-editing options, just to be able to quickly manage your content.

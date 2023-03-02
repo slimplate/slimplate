@@ -1,0 +1,10 @@
+{
+  "name": "create-slimplate",
+  "bin": {
+    "create-slimplate": "cli.mjs"
+  },
+  "dependencies": {
+    "degit": "^2.8.4",
+    "prompts": "^2.4.2"
+  }
+}
