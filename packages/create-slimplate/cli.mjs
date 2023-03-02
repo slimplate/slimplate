@@ -3,62 +3,27 @@ import prompts from 'prompts'
 
 /*
 
-Do you want to use react? no
-Do you want to use jekyl? yes
-Do you host on github pages? yes
-clone slimplate/template-jekyl, modify for ghpages deploy
+Which kind of site do you want to make?
+  Standalone site to manage all of your other site's content
 
-Do you want to use react? yes
-Is this static or dynamic? dynamic
-Do you want to host on Cloudflare? no
-Do you want to host on vercel? yes
+  Dynamic Nextjs, deployed on vercel
 
-clone slimplate/template-next, modify for vercel deploy
+  Static Nextjs, deployed on Vercel
+  Static Nextjs, deployed on Surge
+  Static Nextjs, deployed on Cloudflare Pages
+  Static Nextjs, deployed on Github Pages
 
-Do you want to use react? yes
-Is this static or dynamic? static
-Do you want to use nextjs? no
-Do you want to host on surge? no
-Do you want to host on Cloudflare? no
-Do you want to host on vercel? yes
+  Static React (Vite), deployed on Vercel
+  Static React (Vite), deployed on Surge
+  Static React (Vite), deployed on Cloudflare Pages
+  Static React (Vite), deployed on Github Pages
 
-clone slimplate/template-static, modify for vercel deploy
-
-Do you want to use react? yes
-Is this static or dynamic? static
-Do you want to use nextjs? no
-Do you want to host on surge? no
-Do you want to host on Cloudflare? yes
-
-clone slimplate/template-static, modify for cf deploy
-
-Do you want to use react? yes
-Is this static or dynamic? static
-Do you want to use nextjs? no
-Do you want to host on surge? yes
-
-clone slimplate/template-static, modify for surge deploy
-
-Do you want to use react? yes
-Is this static or dynamic? static
-Do you want to use nextjs? yes
-Do you want to host on surge? yes
-
-clone slimplate/template-next, modify for static deploy on surge
-
-Do you want to use react? yes
-Is this static or dynamic? static
-Do you want to use nextjs? yes
-Do you want to host on surge? no
-Do you host on github pages? yes
-
-clone slimplate/template-static, modify for ghpages deploy
+If host is not vercel/cloudflare, where do yuo want to host your backend?
+  Vercel
+  Cloudflare Workers
 
 */
 
-console.log(`
-Currently, we only support 1 kind of template: template-vercel-next.
-Eventuially, this will ask you some questions.
-`)
+// prompts here
 
 // do degit here
