@@ -1,3 +1,5 @@
 {
-  "name": "@slimplate/react-flowbite-cloudinary"
+  "name": "@slimplate/react-flowbite-cloudinary",
+  "private": true,
+  "version": "0.0.0"
 }

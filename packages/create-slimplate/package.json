@@ -1,5 +1,6 @@
 {
   "name": "create-slimplate",
+  "private": true,
   "bin": {
     "create-slimplate": "cli.mjs"
   },

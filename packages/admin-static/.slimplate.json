@@ -1,0 +1,77 @@
+{
+  "engine": "github",
+  "collections": {
+    "blog": {
+      "title": "Blog",
+      "files": "/content/blog/**/*.md",
+      "filename": "/content/blog/${date}-${slug}.md",
+      "fields": [
+        {
+          "name": "title",
+          "label": "Title",
+          "title": true,
+          "validators": [
+            "required"
+          ]
+        },
+        {
+          "name": "content",
+          "label": "Body",
+          "body": true,
+          "type": "richtext",
+          "validators": [
+            "required"
+          ]
+        },
+        {
+          "name": "slug",
+          "label": "URL Slug",
+          "default": "${slugify(title)}",
+          "validators": [
+            "required"
+          ]
+        },
+        {
+          "name": "date",
+          "label": "Date",
+          "type": "date",
+          "default": "${(new Date()).toISOString().split('T').at(0)}",
+          "format": "YYYY-MM-DD",
+          "validators": [
+            "required"
+          ]
+        }
+      ]
+    },
+    "page": {
+      "title": "Page",
+      "files": "/content/page/**/*.md",
+      "filename": "/content/page/${slug}.md",
+      "fields": [
+        {
+          "name": "title",
+          "label": "Title",
+          "validators": [
+            "required"
+          ]
+        },
+        {
+          "name": "content",
+          "label": "Body",
+          "type": "richtext",
+          "validators": [
+            "required"
+          ]
+        },
+        {
+          "name": "slug",
+          "label": "URL Slug",
+          "default": "${slugify(title)}",
+          "validators": [
+            "required"
+          ]
+        }
+      ]
+    }
+  }
+}
