@@ -39,7 +39,8 @@
     "tabler-icons-react": "^1.56.0",
     "template-templates": "^1.0.1",
     "unified": "^10.1.2",
-    "yaml": "^2.2.1"
+    "yaml": "^2.2.1",
+    "@slimplate/github-git": "0.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

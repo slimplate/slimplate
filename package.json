@@ -2,10 +2,12 @@
   "name": "@slimplate/mono",
   "version": "0.0.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "admin": "npm run start --workspace=packages/admin-static"
+  },
   "license": "MIT",
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^6.5.1"
   },
   "workspaces": [
     "packages/*"
