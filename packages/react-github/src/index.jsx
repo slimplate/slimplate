@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import GithubProject from '@slimplate/github-git'
 import LightningFS from '@isomorphic-git/lightning-fs'
 import minimatch from 'minimatch'
-import { Octokit } from 'octokit'
+import { Octokit } from '@octokit-next/core'
 
 export const context = createContext({})
 export const useSlimplate = () => useContext(context)

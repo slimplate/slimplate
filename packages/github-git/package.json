@@ -5,12 +5,12 @@
   "dependencies": {
     "@slimplate/utils": "file:packages/utils",
     "flowbite-react": "^0.3.8",
+    "isomorphic-git": "^1.21.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "template-templates": "^1.0.1"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.13",
     "microbundle": "^0.15.1"
   },
   "files": [

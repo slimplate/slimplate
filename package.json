@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "admin": "lerna run start --scope @slimplate/admin-static",
-    "build": "lerna run build"
+    "build": "lerna run build --stream"
   },
   "license": "MIT",
   "workspaces": [

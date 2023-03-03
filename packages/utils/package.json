@@ -10,7 +10,6 @@
     "inflection": "^2.0.1"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.13",
     "microbundle": "^0.15.1"
   },
   "files": [
