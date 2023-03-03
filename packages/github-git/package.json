@@ -1,4 +1,31 @@
 {
   "name": "@slimplate/github-git",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@slimplate/utils": "0.0.0",
+    "flowbite-react": "^0.3.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "template-templates": "^1.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "microbundle": "^0.15.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "microbundle"
+  },
+  "source": "src/index.js",
+  "main": "./dist/github-git.umd.cjs",
+  "module": "./dist/github-git.js",
+  "exports": {
+    ".": {
+      "import": "./dist/github-git.js",
+      "require": "./dist/github-git.umd.cjs"
+    }
+  }
 }

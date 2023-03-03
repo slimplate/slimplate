@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import GithubProject from '@slimplate/github-git'
 import LightningFS from '@isomorphic-git/lightning-fs'
 import minimatch from 'minimatch'
+import { Octokit } from 'octokit'
 
 export const context = createContext({})
 export const useSlimplate = () => useContext(context)
@@ -137,7 +138,7 @@ function HasUser ({ widgets, children, user, setUser, token, setToken, backendUR
     return () => clearInterval(i)
   }, [projects, token, user, corsProxy])
 
-  globalThis.octokit = new window.Octokit({ auth: token })
+  const octokit = new Octokit({ auth: token })
 
   return (
     <context.Provider value={{
@@ -152,7 +153,7 @@ function HasUser ({ widgets, children, user, setUser, token, setToken, backendUR
       projects,
       setProjects,
       corsProxy,
-      octokit: globalThis.octokit
+      octokit
     }}
     >
       {children}

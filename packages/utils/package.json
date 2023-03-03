@@ -1,5 +1,32 @@
 {
   "name": "@slimplate/utils",
+  "version": "0.0.0",
   "private": true,
-  "version": "0.0.0"
+  "type": "module",
+  "dependencies": {
+    "slugify": "^1.6.5",
+    "short-uuid": "^4.2.2",
+    "dateformat": "^5.0.3",
+    "template-templates": "^1.0.1",
+    "inflection": "^2.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "microbundle": "^0.15.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "microbundle"
+  },
+  "source": "src/index.js",
+  "main": "./dist/utils.umd.cjs",
+  "module": "./dist/utils.js",
+  "exports": {
+    ".": {
+      "import": "./dist/utils.js",
+      "require": "./dist/utils.umd.cjs"
+    }
+  }
 }

@@ -4,10 +4,17 @@
   "private": true,
   "scripts": {
     "admin": "npm run start --workspace=packages/admin-static",
-    "build:react-flowbite-github": "npm run build --workspace=packages/react-flowbite-github"
+    "build": "run-s build:utils build:github-git build:react-github build:react-flowbite-github",
+    "build:react-github": "npm run build --workspace=packages/react-github",
+    "build:react-flowbite-github": "npm run build --workspace=packages/react-flowbite-github",
+    "build:github-git": "npm run build --workspace=packages/github-git",
+    "build:utils": "npm run build --workspace=packages/utils"
   },
   "license": "MIT",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }

@@ -1,6 +1,36 @@
 {
   "name": "@slimplate/react-github",
-  "private": true,
   "version": "0.0.0",
-  "main": "index.jsx"
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@isomorphic-git/lightning-fs": "^4.6.0",
+    "@slimplate/github-git": "file:packages/github-git",
+    "@slimplate/utils": "0.0.0",
+    "flowbite-react": "^0.3.8",
+    "isomorphic-git": "^1.21.0",
+    "minimatch": "^6.1.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "template-templates": "^1.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "microbundle": "^0.15.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx"
+  },
+  "source": "src/index.jsx",
+  "main": "./dist/react-github.umd.cjs",
+  "module": "./dist/react-github.js",
+  "exports": {
+    ".": {
+      "import": "./dist/react-github.js",
+      "require": "./dist/react-github.umd.cjs"
+    }
+  }
 }
