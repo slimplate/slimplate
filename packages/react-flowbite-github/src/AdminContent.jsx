@@ -5,9 +5,7 @@ import { Trash, Plus } from 'tabler-icons-react'
 import ModalDialogDelete from './ModalDialogDelete'
 import GithubProject from '@slimplate/github-git'
 import { useState } from 'react'
-import tt from 'template-templates'
-import * as inflection from 'inflection'
-import { uuid, slugify, dateFormat } from '@slimplate/utils'
+import { tt } from '@slimplate/utils'
 
 const onSelectDefault = (article, collection, project) => { document.location = `/admin/${project.name}/${collection.name}${article.filename}` }
 
@@ -75,7 +73,7 @@ export default function AdminContent ({ onCreate, onDelete, onSelect = onSelectD
               <th scope='col' className='px-6 py-3 w-2' />
 
               <th scope='col' className='px-6 py-3 pl-2'>
-                {tt(itemTitle, { uuid, slugify, ...inflection, dateFormat, collection })}
+                {tt(itemTitle, { collection })}
               </th>
               <th scope='col' className='px-6 py-3 w-[8rem]'>
                 <Button className='ml-auto' onClick={onCreate}>

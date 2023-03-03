@@ -1,8 +1,6 @@
 // view for managing collection
 import { useSlimplate } from '@slimplate/react-github'
-import tt from 'template-templates'
-import * as inflection from 'inflection'
-import { uuid, slugify, dateFormat } from '@slimplate/utils'
+import { tt } from '@slimplate/utils'
 
 function CollectionStatus ({ status }) {
   return (
@@ -43,7 +41,7 @@ export default function AdminCollection ({ onSelect = defaultOnCollection, proje
                 <th onClick={() => onSelect(c, project)} scope='row' className='hover:cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white pl-0'>
                   <div className='flex items-center text-center whitespace-nowrap font-medium text-gray-900 dark:text-white'>
                     <div className='pl-3'>
-                      <div className='text-left text-base font-semibold' key={c.name}>{tt((c.title || ''), { uuid, slugify, ...inflection, dateFormat, collection: c })}</div>
+                      <div className='text-left text-base font-semibold' key={c.name}>{tt((c.title || ''), { collection: c })}</div>
                     </div>
                   </div>
                 </th>
