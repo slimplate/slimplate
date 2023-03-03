@@ -1,7 +1,6 @@
 {
   "name": "@slimplate/utils",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
   "dependencies": {
     "slugify": "^1.6.5",

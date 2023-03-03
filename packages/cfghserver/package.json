@@ -2,7 +2,7 @@
   "name": "@slimplate/cfghserver",
   "version": "0.0.0",
   "devDependencies": {
-    "wrangler": "2.8.0"
+    "wrangler": "^2.12.0"
   },
   "module": true,
   "private": true,

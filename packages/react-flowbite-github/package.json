@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@slimplate/react-github": "0.0.0",
-    "@slimplate/utils": "0.0.0",
+    "@slimplate/react-github": "file:packages/react-github",
+    "@slimplate/utils": "file:packages/utils",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
