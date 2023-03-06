@@ -2,7 +2,7 @@ import s from 'slugify'
 import shortuuid from 'short-uuid'
 import df from 'dateformat'
 import tto from 'template-templates'
-import * as inflection from 'inflection'
+import inflection from 'inflection'
 
 const uuidGenerator = shortuuid()
 

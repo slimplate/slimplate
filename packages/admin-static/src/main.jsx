@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { SlimplateProvider, useSlimplate, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
-import '@slimplate/react-flowbite-github/style.css'
 
 import UserMenu from './UserMenu.jsx'
 import './index.css'

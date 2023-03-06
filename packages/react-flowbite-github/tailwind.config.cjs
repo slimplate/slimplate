@@ -1,4 +1,4 @@
-module.exports =  {
+module.exports = {
   darkMode: 'media',
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
