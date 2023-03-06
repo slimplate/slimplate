@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@slimplate/react-github": "file:packages/react-github",
+    "@octokit-next/core": "^2.7.0",
+    "@slimplate/github-git": "file:packages/github-git",
     "@slimplate/utils": "file:packages/utils",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
@@ -23,15 +24,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx"
+    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx -f esm,cjs"
   },
   "source": "src/index.js",
-  "main": "./dist/react-flowbite-github.umd.cjs",
+  "main": "./dist/react-flowbite-github.cjs",
   "module": "./dist/react-flowbite-github.js",
   "exports": {
     ".": {
       "import": "./dist/react-flowbite-github.js",
-      "require": "./dist/react-flowbite-github.umd.cjs"
+      "require": "./dist/react-flowbite-github.cjs"
     },
     "./react-flowbite-github.css": {
       "import": "./dist/react-flowbite-github.css"

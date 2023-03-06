@@ -1,5 +1,5 @@
 // form for editing/adding new content
-import { useSlimplate, useGit } from '@slimplate/react-github'
+import { useSlimplate, useGit } from './react-github.jsx'
 import { Button } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import YAML from 'yaml'

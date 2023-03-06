@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { useSlimplate } from '@slimplate/react-github'
 import { Dropdown, Avatar, Button } from 'flowbite-react'
-import { ModalNewProject } from '@slimplate/react-flowbite-github'
+import { useSlimplate, ModalNewProject } from '@slimplate/react-flowbite-github'
 
 export default function UserMenu () {
   const { user, setUser, setToken, backendURL } = useSlimplate()

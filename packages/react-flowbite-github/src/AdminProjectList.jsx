@@ -1,5 +1,5 @@
 import { Avatar, Button, Spinner } from 'flowbite-react'
-import { useSlimplate } from '@slimplate/react-github'
+import { useSlimplate } from './react-github.jsx'
 import { useState } from 'react'
 import { Plus, Trash, CloudUpload, BoxAlignLeft, BoxAlignRight, Check } from 'tabler-icons-react'
 import ModalDialogDelete from './ModalDialogDelete'

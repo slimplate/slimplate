@@ -1,5 +1,5 @@
 // view for managing collection
-import { useSlimplate } from '@slimplate/react-github'
+import { useSlimplate } from './react-github.jsx'
 import { tt } from '@slimplate/utils'
 
 function CollectionStatus ({ status }) {

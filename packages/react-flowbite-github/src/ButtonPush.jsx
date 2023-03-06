@@ -1,5 +1,5 @@
 import { Button } from 'flowbite-react'
-import { useGit, useSlimplate } from '@slimplate/react-github'
+import { useGit, useSlimplate } from './react-github.jsx'
 import cx from 'classnames'
 import { useState } from 'react'
 

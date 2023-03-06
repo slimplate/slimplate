@@ -7,6 +7,8 @@ import ButtonPush from './ButtonPush.jsx'
 import ModalDialogDelete from './ModalDialogDelete.jsx'
 import ModalNewProject from './ModalNewProject.jsx'
 
+import { SlimplateProvider, useSlimplate, useLocalStorage, useFsUser } from './react-github.jsx'
+
 // TODO: these could be split-up
 import * as widgets from './widgets.jsx'
 
@@ -15,5 +17,4 @@ import ButtonDev from './ButtonDev.jsx'
 
 import './style.css'
 
-export { AdminCollection, AdminContent, AdminEdit, AdminProjectList, AdminSideBar, ButtonPush, ButtonDev, ModalDialogDelete, ModalNewProject, widgets }
-export default { AdminCollection, AdminContent, AdminEdit, AdminProjectList, AdminSideBar, ButtonPush, ModalDialogDelete, ModalNewProject, widgets }
+export { SlimplateProvider, useSlimplate, useLocalStorage, useFsUser, AdminCollection, AdminContent, AdminEdit, AdminProjectList, AdminSideBar, ButtonPush, ButtonDev, ModalDialogDelete, ModalNewProject, widgets }

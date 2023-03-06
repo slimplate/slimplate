@@ -1,6 +1,6 @@
 // view for listing content of a particular collection-type
 import { Button } from 'flowbite-react'
-import { useSlimplate } from '@slimplate/react-github'
+import { useSlimplate } from './react-github.jsx'
 import { Trash, Plus } from 'tabler-icons-react'
 import ModalDialogDelete from './ModalDialogDelete'
 import GithubProject from '@slimplate/github-git'

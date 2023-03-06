@@ -17,15 +17,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "microbundle"
+    "build": "microbundle -f esm,cjs"
   },
   "source": "src/index.js",
-  "main": "./dist/github-git.umd.cjs",
+  "main": "./dist/github-git.cjs",
   "module": "./dist/github-git.js",
   "exports": {
     ".": {
       "import": "./dist/github-git.js",
-      "require": "./dist/github-git.umd.cjs"
+      "require": "./dist/github-git.cjs"
     }
   }
 }

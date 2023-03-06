@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSlimplate } from '@slimplate/react-github'
+import { useSlimplate } from './react-github.jsx'
 import { Spinner, Badge, Pagination, Avatar, Button, Modal } from 'flowbite-react'
 import cx from 'classnames'
 import GithubProject from '@slimplate/github-git'
