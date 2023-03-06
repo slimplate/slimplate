@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@slimplate/utils": "file:packages/utils",
+    "@slimplate/utils": "file:packages/utils"
+  },
+  "peerDependencies": {
     "flowbite-react": "^0.3.8",
     "isomorphic-git": "^1.21.0",
     "react": "^18.2.0",
@@ -17,14 +19,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "microbundle -f esm,cjs"
+    "build": "vite build"
   },
-  "source": "src/index.js",
   "main": "./dist/github-git.cjs",
-  "module": "./dist/github-git.js",
+  "module": "./dist/github-git.mjs",
   "exports": {
     ".": {
-      "import": "./dist/github-git.js",
+      "import": "./dist/github-git.mjs",
       "require": "./dist/github-git.cjs"
     }
   }

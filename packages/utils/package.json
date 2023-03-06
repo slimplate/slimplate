@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
+  },
+  "peerDependencies": {
     "slugify": "^1.6.5",
     "short-uuid": "^4.2.2",
     "dateformat": "^5.0.3",
@@ -16,14 +18,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "microbundle -f esm,cjs"
+    "build": "vite build"
   },
-  "source": "src/index.js",
-  "module": "./dist/utils.js",
+  "module": "./dist/utils.mjs",
   "main": "./dist/utils.cjs",
   "exports": {
     ".": {
-      "import": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
       "require": "./dist/utils.cjs"
     }
   }
