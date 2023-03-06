@@ -40,6 +40,7 @@
     "tabler-icons-react": "^1.56.0",
     "template-templates": "^1.0.1",
     "unified": "^10.1.2",
+    "vite-plugin-singlefile": "^0.13.3",
     "wouter": "^2.10.0",
     "yaml": "^2.2.1"
   },
