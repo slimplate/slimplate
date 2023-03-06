@@ -1,8 +1,8 @@
 import { Modal, Button } from 'flowbite-react'
 
-export default function ModalDialogDelete ({ onConfirm, onClose, text }) {
+export default function ModalDialogDelete ({ onConfirm, onClose, text, show }) {
   return (
-    <Modal show size='md' popup onClose={onClose}>
+    <Modal show={show} size='md' popup onClose={onClose}>
       <Modal.Header className='dark:bg-gray-800' />
       <Modal.Body className='dark:bg-gray-800'>
         <div className='text-center'>

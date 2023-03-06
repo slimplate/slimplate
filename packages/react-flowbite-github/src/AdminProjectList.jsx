@@ -80,15 +80,15 @@ export default function AdminProjectList ({ onSelect = defaultOnProject }) {
 
   return (
     <>
-      {!!projectToDelete && (
-        <ModalDialogDelete
-          onClose={() => setProjectToDelete(false)}
-          onConfirm={handleDeleteProject}
-          text={`Are you sure you want to delete ${projectToDelete} project?`}
-        />
-      )}
 
-      {showProjectModal && (<ModalNewProject onCancel={() => setShowProjectModal(false)} />)}
+      <ModalDialogDelete
+        show={!!projectToDelete}
+        onClose={() => setProjectToDelete(false)}
+        onConfirm={handleDeleteProject}
+        text={`Are you sure you want to delete ${projectToDelete} project?`}
+      />
+
+      <ModalNewProject show={!!showProjectModal} onCancel={() => setShowProjectModal(false)} />
 
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>

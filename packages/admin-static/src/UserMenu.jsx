@@ -14,7 +14,7 @@ export default function UserMenu () {
 
   return (
     <>
-      {open && (<ModalNewProject onCancel={() => setOpen(false)} />)}
+      <ModalNewProject show={open} onCancel={() => setOpen(false)} />
 
       {!user && (<Button href={`${backendURL}?scope=${scope}&redir=${encodeURIComponent(document.location.origin)}`}>Login</Button>)}
       {user && (

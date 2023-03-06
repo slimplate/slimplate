@@ -201,7 +201,7 @@ const BranchSelector = ({ onChange, repo }) => {
   )
 }
 
-export default function ModalNewProject ({ onCancel }) {
+export default function ModalNewProject ({ onCancel, show }) {
   const [org, setOrg] = useState(false)
   const [repo, setRepo] = useState(false)
   const [branch, setBranch] = useState(false)
@@ -258,17 +258,19 @@ export default function ModalNewProject ({ onCancel }) {
 
   return (
 
-    <Modal show onClose={handleCancel}>
+    <Modal show={show} onClose={handleCancel}>
       <Modal.Header className='dark:bg-gray-800'>
         Add a New Project
       </Modal.Header>
-      <Modal.Body className='dark:bg-gray-800'>
-        <div className='space-y-6'>
-          {!org && <OrgList onChange={setOrg} />}
-          {org && !repo && <RepoList onChange={setRepo} org={org} />}
-          {repo && <BranchSelector onChange={setBranch} repo={repo} />}
-        </div>
-      </Modal.Body>
+      {show && (
+        <Modal.Body className='dark:bg-gray-800'>
+          <div className='space-y-6'>
+            {!org && <OrgList onChange={setOrg} />}
+            {org && !repo && <RepoList onChange={setRepo} org={org} />}
+            {repo && <BranchSelector onChange={setBranch} repo={repo} />}
+          </div>
+        </Modal.Body>
+      )}
       <Modal.Footer className='flex justify-end gap-2 dark:bg-gray-800 '>
         {org && (
           <Button color='light' className='mr-auto' onClick={handleBack}>
