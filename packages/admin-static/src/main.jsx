@@ -72,6 +72,7 @@ function App () {
   return (
     <div className='p-8'>
       <UserMenu />
+      <div className='p-4' />
       <Route path='/' component={PageDashboard} />
       <Route path='/:username/:project/:branch' component={PageCollection} />
       <Route path='/:username/:project/:branch/:collection'>ADMIN CONTENT</Route>
