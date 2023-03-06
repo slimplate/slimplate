@@ -3,9 +3,16 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@octokit-next/core": "^2.7.0",
     "@slimplate/github-git": "file:packages/github-git",
-    "@slimplate/utils": "file:packages/utils",
+    "@slimplate/utils": "file:packages/utils"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  },
+  "peerDependencies": {
+    "@octokit-next/core": "^2.7.0",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
@@ -14,28 +21,21 @@
     "tabler-icons-react": "^1.56.0",
     "template-templates": "^1.0.1"
   },
-  "devDependencies": {
-    "autoprefixer": "^10.4.13",
-    "microbundle": "^0.15.1",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7"
-  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx -f esm,cjs"
+    "build": "vite build"
   },
-  "source": "src/index.js",
-  "main": "./dist/react-flowbite-github.cjs",
-  "module": "./dist/react-flowbite-github.js",
+  "main": "./dist/slimplate-react-github.cjs",
+  "module": "./dist/slimplate-react-github.mjs",
   "exports": {
     ".": {
-      "import": "./dist/react-flowbite-github.js",
-      "require": "./dist/react-flowbite-github.cjs"
+      "import": "./dist/slimplate-react-github.mjs",
+      "require": "./dist/slimplate-react-github.cjs"
     },
-    "./react-flowbite-github.css": {
-      "import": "./dist/react-flowbite-github.css"
+    "./style.css": {
+      "import": "./dist/style.css"
     }
   }
 }

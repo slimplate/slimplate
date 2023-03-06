@@ -7,7 +7,6 @@
     "build": "lerna run build --stream",
     "clean": "rimraf packages/*/dist"
   },
-  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],
