@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Route, useLocation, Switch } from 'wouter'
 
-import { SlimplateProvider, useSlimplate, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
+import { SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
 
 import UserMenu from './UserMenu.jsx'
 import './index.css'

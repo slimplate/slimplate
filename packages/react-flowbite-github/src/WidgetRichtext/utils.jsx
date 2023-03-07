@@ -74,7 +74,7 @@ function slimplatePatchButton (state, node) {
   const p = JSON.parse(unescape(node?.properties?.dataProps || '%7B%7D'))
   const tag = node?.properties?.dataType
   delete node.children
-  const props = Object.keys(p).map(k => `${k}={${JSON.stringify(p[k])}}`)
+  const props = Object.keys(p).map(k => `${k}=${typeof p[k] === 'string' ? JSON.stringify(p[k]).replace(/"/g, "'") : `{${JSON.stringify(p[k])}}`}`)
   node.value = `<${tag} ${props.join(' ')} />`
   return node
 }
