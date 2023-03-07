@@ -33,6 +33,8 @@ function PageCollection ({ params: { username, project, branch } }) {
 function PageContent ({ params: { username, project, branch, collection } }) {
   const [, navigate] = useLocation()
 
+  console.log({ username, project, branch, collection })
+
   return (
     <>
       PageContent
@@ -79,23 +81,21 @@ function PageNew ({ params: { username, project, branch, collection } }) {
 function App () {
   return (
     <div className='p-8'>
-      <UserMenu />
-      <div className='p-4' />
-      <Route path='/' component={PageDashboard} />
-      <Switch>
-        <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
-        <Route path='/:username/:project/:branch' component={PageCollection} />
-        <Route path='/:username/:project/:branch/:collection' component={PageContent} />
-        <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
-      </Switch>
+      <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
+        <UserMenu />
+        <div className='p-4' />
+        <Route path='/' component={PageDashboard} />
+        <Switch>
+          <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
+          <Route path='/:username/:project/:branch' component={PageCollection} />
+          <Route path='/:username/:project/:branch/:collection' component={PageContent} />
+          <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
+        </Switch>
+      </SlimplateProvider>
     </div>
   )
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
-      <App />
-    </SlimplateProvider>
-  </React.StrictMode>
+  <App />
 )

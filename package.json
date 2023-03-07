@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "admin": "lerna run start --scope @slimplate/admin-static",
+    "prestart": "npm run build",
+    "start": "lerna run start --scope @slimplate/admin-static",
     "build": "lerna run build --stream",
     "clean": "rimraf packages/*/dist"
   },

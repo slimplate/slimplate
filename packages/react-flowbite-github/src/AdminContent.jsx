@@ -22,6 +22,7 @@ function ContentStatus ({ status }) {
 
 export default function AdminContent ({ onCreate, onDelete = () => {}, onSelect = onSelectDefault, projectName, collectionName }) {
   const { projects, setProjects, fs, token, user, corsProxy, status } = useSlimplate()
+  console.log(projects)
   const [contentToDelete, setContentToDelete] = useState()
 
   const project = projects[projectName]

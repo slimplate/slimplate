@@ -19,7 +19,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "start": "vite build --watch"
   },
   "main": "./dist/github-git.cjs",
   "module": "./dist/github-git.mjs",

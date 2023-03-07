@@ -25,7 +25,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "start": "vite build --watch"
   },
   "main": "./dist/slimplate-react-github.cjs",
   "module": "./dist/slimplate-react-github.mjs",

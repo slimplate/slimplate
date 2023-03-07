@@ -7,7 +7,7 @@
   "module": true,
   "private": true,
   "scripts": {
-    "start": "wrangler dev",
+    "dev": "wrangler dev",
     "deploy": "wrangler publish"
   },
   "dependencies": {
