@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-import { Route, useLocation, Switch } from 'wouter'
+import { Route, useLocation, Switch, Router, useRouter } from 'wouter'
 
 import { SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
 
@@ -77,19 +77,38 @@ function PageNew ({ params: { username, project, branch, collection } }) {
   )
 }
 
+const NestedRoutes = (props) => {
+  const router = useRouter()
+  const [parentLocation] = useLocation()
+
+  const nestedBase = `${router.base}${props.base}`
+
+  // don't render anything outside of the scope
+  if (!parentLocation.startsWith(nestedBase)) return null
+
+  // we need key to make sure the router will remount when base changed
+  return (
+    <Router base={nestedBase} key={nestedBase}>
+      {props.children}
+    </Router>
+  )
+}
+
 function App () {
   return (
     <div className='p-8'>
       <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
         <UserMenu />
         <div className='p-4' />
-        <Route path='/' component={PageDashboard} />
-        <Switch>
-          <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
-          <Route path='/:username/:project/:branch' component={PageCollection} />
-          <Route path='/:username/:project/:branch/:collection' component={PageContent} />
-          <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
-        </Switch>
+        <NestedRoutes base={window?.slimplate?.base || ''}>
+          <Route path='/' component={PageDashboard} />
+          <Switch>
+            <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
+            <Route path='/:username/:project/:branch' component={PageCollection} />
+            <Route path='/:username/:project/:branch/:collection' component={PageContent} />
+            <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
+          </Switch>
+        </NestedRoutes>
       </SlimplateProvider>
     </div>
   )
