@@ -20,7 +20,7 @@ function ContentStatus ({ status }) {
   )
 }
 
-export default function AdminContent ({ onCreate, onDelete, onSelect = onSelectDefault, projectName, collectionName }) {
+export default function AdminContent ({ onCreate, onDelete = () => {}, onSelect = onSelectDefault, projectName, collectionName }) {
   const { projects, setProjects, fs, token, user, corsProxy, status } = useSlimplate()
   const [contentToDelete, setContentToDelete] = useState()
 
@@ -53,18 +53,18 @@ export default function AdminContent ({ onCreate, onDelete, onSelect = onSelectD
     await git.rm(contentToDelete)
     await git.commit('removed "' + contentToDelete + '" content.')
 
+    onDelete(contentToDelete)
     setContentToDelete(false)
   }
 
   return (
     <>
-      {contentToDelete && (
-        <ModalDialogDelete
-          onClose={() => setContentToDelete(false)}
-          onConfirm={handleDeleteArticle}
-          text='Are you sure you want to delete this article?'
-        />
-      )}
+      <ModalDialogDelete
+        show={!!contentToDelete}
+        onClose={() => setContentToDelete(false)}
+        onConfirm={handleDeleteArticle}
+        text='Are you sure you want to delete this article?'
+      />
 
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
