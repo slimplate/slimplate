@@ -12,6 +12,13 @@ const { VITE_GITHUB_BACKEND, VITE_CORS_PROXY } = import.meta.env
 
 function PageDashboard () {
   const [, navigate] = useLocation()
+
+  if (window?.slimplate?.project) {
+    const [pname, branch] = window?.slimplate?.project.split('#')
+    console.log({ pname, branch })
+    return `SKIP PROJECT LIST aAND CLONE ${window?.slimplate?.project}`
+  }
+
   return (
     <AdminProjectList onSelect={p => navigate(`/${p.full_name}/${p.branch.name}`)} />
   )
