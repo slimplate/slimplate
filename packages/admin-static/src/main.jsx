@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom/client'
 import { useEffect, useState } from 'react'
-import { Route, useLocation, Switch, Router } from 'wouter'
+import { Route, Redirect, useLocation, Switch, Router } from 'wouter'
 import { useLocationProperty, navigate } from 'wouter/use-location'
 import { useSlimplate, SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
+import GithubProject from '@slimplate/github-git'
 
 import Menu from './Menu.jsx'
 import './index.css'
@@ -10,16 +11,71 @@ import './index.css'
 // set this up in your .env file
 const { VITE_GITHUB_BACKEND, VITE_CORS_PROXY } = import.meta.env
 
+const ORG_LIST = `
+query ORG_LIST { 
+    viewer {
+      organizations (first:100) {
+        totalCount
+        nodes {
+          name
+          login
+          avatarUrl
+        }
+      }
+    }
+  }
+`
+
 function PageDashboard () {
   const [, navigate] = useLocation()
+  const { octokit, fs, token, user, corsProxy, setProjects, projects } = useSlimplate()
+
+  const cloneRepo = async () => {
+    const [orgName, repoName] = window?.slimplate?.project.split('/')
+    const branch = window?.slimplate?.branch
+
+    const orgs = await octokit.graphql(ORG_LIST).then(r => r.viewer.organizations.nodes)
+    const org = orgs.filter(o => o.name === orgName)[0]
+
+    const repos = await octokit.request(`GET /orgs/${org.login}/repos`).then(r => r.data)
+    const repo = repos.filter(r => r.name === repoName)[0]
+
+    const git = new GithubProject(fs, repo, branch, token, user, undefined, corsProxy)
+    await git.init()
+    const project = {
+      ...JSON.parse(await git.read('.slimplate.json', 'utf8')),
+      owner: {
+        avatar_url: repo.owner.avatar_url,
+        login: repo.owner.login
+      },
+      clone_url: repo.clone_url,
+      name: repo.name,
+      full_name: repo.full_name,
+      html_url: repo.html_url,
+      branch,
+      status: 'loading'
+    }
+    for (const name of Object.keys(project.collections)) {
+      project.collections[name].name = name
+    }
+
+    setProjects({ ...projects, [project.full_name]: project })
+    for (const c of Object.keys(project.collections)) {
+      const collection = { ...project.collections[c] }
+      collection.content = (await git.parseCollection(collection, c)) || {}
+      project.collections[c] = collection
+      setProjects({ ...projects, [project.full_name]: project })
+    }
+  }
 
   if (window?.slimplate?.project) {
-    const [pname, branch] = window?.slimplate?.project.split('#')
-    // TODO: get branch from github if undefined
-    // normal checkout
+    cloneRepo()
 
-    console.log({ pname, branch })
-    return `SKIP PROJECT LIST aAND CLONE ${window?.slimplate?.project}`
+    console.log(projects)
+
+    return (
+      <Redirect to={`/${window?.slimplate?.project}/${window?.slimplate?.branch}`} />
+    )
   }
 
   return (
