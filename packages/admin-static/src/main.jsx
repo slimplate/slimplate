@@ -4,7 +4,7 @@ import { Route, useLocation, Switch, Router } from 'wouter'
 import { useLocationProperty, navigate } from 'wouter/use-location'
 import { useSlimplate, SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
 
-import UserMenu from './UserMenu.jsx'
+import Menu from './Menu.jsx'
 import './index.css'
 
 // set this up in your .env file
@@ -30,13 +30,10 @@ function PageDashboard () {
 function PageCollection ({ params: { username, project, branch } }) {
   const [, navigate] = useLocation()
   return (
-    <>
-      PageCollection
-      <AdminCollection
-        onSelect={c => navigate(`/${username}/${project}/${branch}/${c.name}`)}
-        projectName={`${username}/${project}`}
-      />
-    </>
+    <AdminCollection
+      onSelect={c => navigate(`/${username}/${project}/${branch}/${c.name}`)}
+      projectName={`${username}/${project}`}
+    />
   )
 }
 
@@ -54,15 +51,12 @@ function PageContent ({ params: { username, project, branch, collection } }) {
   }
 
   return (
-    <>
-      PageContent
-      <AdminContent
-        collectionName={collection}
-        projectName={`${username}/${project}`}
-        onCreate={() => navigate(`/new/${username}/${project}/${branch}/${collection}`)}
-        onSelect={f => navigate(`/${username}/${project}/${branch}/${collection}${f.filename}`)}
-      />
-    </>
+    <AdminContent
+      collectionName={collection}
+      projectName={`${username}/${project}`}
+      onCreate={() => navigate(`/new/${username}/${project}/${branch}/${collection}`)}
+      onSelect={f => navigate(`/${username}/${project}/${branch}/${collection}${f.filename}`)}
+    />
   )
 }
 
@@ -81,30 +75,24 @@ function PageEdit ({ params: { username, project, branch, collection, filename }
   }
 
   return (
-    <>
-      PageEdit
-      <AdminEdit
-        filename={`/${filename}`}
-        collectionName={collection}
-        projectName={`${username}/${project}`}
-        onSubmit={f => navigate(`/${username}/${project}/${branch}/${collection}`)}
-      />
-    </>
+    <AdminEdit
+      filename={`/${filename}`}
+      collectionName={collection}
+      projectName={`${username}/${project}`}
+      onSubmit={f => navigate(`/${username}/${project}/${branch}/${collection}`)}
+    />
   )
 }
 function PageNew ({ params: { username, project, branch, collection } }) {
   const [, navigate] = useLocation()
 
   return (
-    <>
-      PageNew
-      <AdminEdit
-        filename
-        collectionName={collection}
-        projectName={`${username}/${project}`}
-        onSubmit={f => navigate(`/${username}/${project}/${branch}/${collection}`)}
-      />
-    </>
+    <AdminEdit
+      filename
+      collectionName={collection}
+      projectName={`${username}/${project}`}
+      onSubmit={f => navigate(`/${username}/${project}/${branch}/${collection}`)}
+    />
   )
 }
 
@@ -122,19 +110,20 @@ const useHashLocation = () => {
 function App () {
   const { user } = useSlimplate()
   return (
-    <div className='p-8'>
-      <UserMenu />
-      <div className='p-4' />
+    <div>
+      <Menu />
       {user && (
-        <Router hook={useHashLocation}>
-          <Route path='/' component={PageDashboard} />
-          <Switch>
-            <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
-            <Route path='/:username/:project/:branch' component={PageCollection} />
-            <Route path='/:username/:project/:branch/:collection' component={PageContent} />
-            <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
-          </Switch>
-        </Router>
+        <div className='p-8'>
+          <Router hook={useHashLocation}>
+            <Route path='/' component={PageDashboard} />
+            <Switch>
+              <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
+              <Route path='/:username/:project/:branch' component={PageCollection} />
+              <Route path='/:username/:project/:branch/:collection' component={PageContent} />
+              <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
+            </Switch>
+          </Router>
+        </div>
       )}
     </div>
   )
