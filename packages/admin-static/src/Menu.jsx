@@ -19,7 +19,7 @@ export default function Menu () {
       <div className='container flex flex-wrap items-center justify-between mx-auto'>
 
         <a href='/' className='flex items-center dark:text-white hover:cursor-pointer'>
-          <img src='/slimplate.png' className='h-6 mr-3 sm:h-9' alt='Flowbite Logo' />
+          <img src='https://cdn.jsdelivr.net/gh/slimplate/branding/logo.png' className='h-6 mr-3 sm:h-9' alt='Slimplate Logo' />
           <span className='self-center text-xl font-semibold whitespace-nowrap'>Slimplate site</span>
         </a>
 
