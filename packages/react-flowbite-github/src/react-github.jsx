@@ -177,7 +177,7 @@ export function SlimplateProvider ({ widgets = {}, children, backendURL, corsPro
   }, [])
 
   if (token && !user) {
-    globalThis.octokit = new window.Octokit({ auth: token })
+    globalThis.octokit = new Octokit({ auth: token })
     globalThis.octokit.request('GET /user', {})
       .then(async u => {
         const emails = await globalThis.octokit.request('GET /user/emails', {})
