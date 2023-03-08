@@ -4,7 +4,8 @@ import { Dropdown, Avatar, Button } from 'flowbite-react'
 import { useSlimplate, ModalNewProject } from '@slimplate/react-flowbite-github'
 
 export default function Menu () {
-  const [open, setOpen] = useState(false)
+  const [openMenu, setOpenMenu] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
   const { user, setUser, setToken, backendURL } = useSlimplate()
   const scope = encodeURIComponent('repo read:org read:user user:email')
 
@@ -28,13 +29,14 @@ export default function Menu () {
 
         {user && (
           <>
-            <ModalNewProject show={open} onCancel={() => setOpen(false)} />
+            <ModalNewProject show={openModal} onCancel={() => setOpenModal(false)} />
 
-            <button onClick={() => setOpen(!open)} type='button' className='inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'>
+            <button onClick={() => setOpenMenu(!openMenu)} type='button' className='inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'>
               <svg className='w-6 h-6' aria-hidden='true' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z' clipRule='evenodd' /></svg>
             </button>
-            <div className={cx({ hidden: !open }, 'w-full md:block md:w-auto border-t md:border-none my-4 md:my-2')}>
-              <ul className='flex flex-col gap-4 text-slate-300 md:items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium '>
+
+            <div className={cx({ hidden: !openMenu }, 'w-full md:block md:w-auto border-t md:border-none my-4 md:my-2')}>
+              <ul className='flex flex-col gap-2 text-slate-300 md:items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium '>
                 <li className='hover:text-white hover:cursor-pointer'>
                   Collections
                 </li>
@@ -51,7 +53,7 @@ export default function Menu () {
                         signed in as <span className='text-yellow-300'>{user.login}</span>
                       </span>
                     </Dropdown.Header>
-                    <Dropdown.Item onClick={() => setOpen(true)}>
+                    <Dropdown.Item onClick={() => setOpenModal(true)}>
                       Add a new Project
                     </Dropdown.Item>
                     <Dropdown.Divider />
