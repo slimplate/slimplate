@@ -15,6 +15,9 @@ function PageDashboard () {
 
   if (window?.slimplate?.project) {
     const [pname, branch] = window?.slimplate?.project.split('#')
+    // TODO: get branch from github if undefined
+    // normal checkout
+
     console.log({ pname, branch })
     return `SKIP PROJECT LIST aAND CLONE ${window?.slimplate?.project}`
   }
@@ -117,11 +120,12 @@ const useHashLocation = () => {
 }
 
 function App () {
+  const { user } = useSlimplate()
   return (
     <div className='p-8'>
-      <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
-        <UserMenu />
-        <div className='p-4' />
+      <UserMenu />
+      <div className='p-4' />
+      {user && (
         <Router hook={useHashLocation}>
           <Route path='/' component={PageDashboard} />
           <Switch>
@@ -131,11 +135,14 @@ function App () {
             <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
           </Switch>
         </Router>
-      </SlimplateProvider>
+      )}
     </div>
   )
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <App />
+  <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
+    <App />
+  </SlimplateProvider>
+
 )
