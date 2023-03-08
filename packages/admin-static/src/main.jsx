@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom/client'
-import { Route, useLocation, Switch, Router, useRouter } from 'wouter'
-
-import { SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
+import { useEffect, useState } from 'react'
+import { Route, useLocation, Switch, Router } from 'wouter'
+import { useLocationProperty, navigate } from 'wouter/use-location'
+import { useSlimplate, SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
 
 import UserMenu from './UserMenu.jsx'
 import './index.css'
@@ -31,8 +32,16 @@ function PageCollection ({ params: { username, project, branch } }) {
 
 function PageContent ({ params: { username, project, branch, collection } }) {
   const [, navigate] = useLocation()
+  const d = useSlimplate()
 
-  console.log({ username, project, branch, collection })
+  if (
+    !Object.keys(d?.projects || {}).length ||
+    !d.projects[`${username}/${project}`] ||
+    !d.projects[`${username}/${project}`]?.collections[collection] ||
+    !d.status || !d.status[`${username}/${project}`]
+  ) {
+    return null
+  }
 
   return (
     <>
@@ -49,6 +58,18 @@ function PageContent ({ params: { username, project, branch, collection } }) {
 
 function PageEdit ({ params: { username, project, branch, collection, filename } }) {
   const [, navigate] = useLocation()
+
+  const d = useSlimplate()
+
+  if (
+    !Object.keys(d?.projects || {}).length ||
+    !d.projects[`${username}/${project}`] ||
+    !d.projects[`${username}/${project}`]?.collections[collection] ||
+    !d.status || !d.status[`${username}/${project}`]
+  ) {
+    return null
+  }
+
   return (
     <>
       PageEdit
@@ -77,21 +98,15 @@ function PageNew ({ params: { username, project, branch, collection } }) {
   )
 }
 
-const NestedRoutes = (props) => {
-  const router = useRouter()
-  const [parentLocation] = useLocation()
+// returns the current hash location in a normalized form
+// (excluding the leading '#' symbol)
+const hashLocation = () => window.location.hash.replace(/^#/, '') || '/'
 
-  const nestedBase = `${router.base}${props.base}`
+const hashNavigate = (to) => navigate('#' + to)
 
-  // don't render anything outside of the scope
-  if (!parentLocation.startsWith(nestedBase)) return null
-
-  // we need key to make sure the router will remount when base changed
-  return (
-    <Router base={nestedBase} key={nestedBase}>
-      {props.children}
-    </Router>
-  )
+const useHashLocation = () => {
+  const location = useLocationProperty(hashLocation)
+  return [location, hashNavigate]
 }
 
 function App () {
@@ -100,7 +115,7 @@ function App () {
       <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
         <UserMenu />
         <div className='p-4' />
-        <NestedRoutes base={window?.slimplate?.base || ''}>
+        <Router hook={useHashLocation}>
           <Route path='/' component={PageDashboard} />
           <Switch>
             <Route path='/new/:username/:project/:branch/:collection' component={PageNew} />
@@ -108,7 +123,7 @@ function App () {
             <Route path='/:username/:project/:branch/:collection' component={PageContent} />
             <Route path='/:username/:project/:branch/:collection/:filename*' component={PageEdit} />
           </Switch>
-        </NestedRoutes>
+        </Router>
       </SlimplateProvider>
     </div>
   )
