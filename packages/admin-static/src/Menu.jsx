@@ -1,9 +1,11 @@
 import cx from 'classnames'
 import { useState } from 'react'
+import { Menu2 } from 'tabler-icons-react'
 import { Dropdown, Avatar, Button } from 'flowbite-react'
 import { useSlimplate, ModalNewProject } from '@slimplate/react-flowbite-github'
+import { Link } from 'wouter'
 
-export default function Menu () {
+export default function Menu ({ showProjectModal }) {
   const [openMenu, setOpenMenu] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const { user, setUser, setToken, backendURL } = useSlimplate()
@@ -18,10 +20,10 @@ export default function Menu () {
     <nav className='bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-slate-800'>
       <div className='container flex flex-wrap items-center justify-between mx-auto'>
 
-        <a href='/' className='flex items-center dark:text-white hover:cursor-pointer'>
+        <Link href='/' className='flex items-center dark:text-white hover:cursor-pointer'>
           <img src='https://cdn.jsdelivr.net/gh/slimplate/branding/logo.png' className='h-6 mr-3 sm:h-9' alt='Slimplate Logo' />
           <span className='self-center text-xl font-semibold whitespace-nowrap'>Slimplate site</span>
-        </a>
+        </Link>
 
         {!user && (
           <Button href={`${backendURL}?scope=${scope}&redir=${encodeURIComponent(document.location.origin)}`}>Login</Button>
@@ -32,15 +34,11 @@ export default function Menu () {
             <ModalNewProject show={openModal} onCancel={() => setOpenModal(false)} />
 
             <button onClick={() => setOpenMenu(!openMenu)} type='button' className='inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'>
-              <svg className='w-6 h-6' aria-hidden='true' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z' clipRule='evenodd' /></svg>
+              <Menu2 />
             </button>
 
             <div className={cx({ hidden: !openMenu }, 'w-full md:block md:w-auto border-t md:border-none my-4 md:my-2')}>
               <ul className='flex flex-col gap-2 text-slate-300 md:items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium '>
-                <li className='hover:text-white hover:cursor-pointer'>
-                  Collections
-                </li>
-
                 <li className={cx('hidden md:block')}>
                   {/* user dropdown */}
                   <Dropdown
@@ -53,10 +51,14 @@ export default function Menu () {
                         signed in as <span className='text-yellow-300'>{user.login}</span>
                       </span>
                     </Dropdown.Header>
-                    <Dropdown.Item onClick={() => setOpenModal(true)}>
-                      Add a new Project
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
+                    {showProjectModal && (
+                      <>
+                        <Dropdown.Item onClick={() => setOpenModal(true)}>
+                          Add a new Project
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                      </>
+                    )}
                     <Dropdown.Item onClick={logout}>
                       Sign out
                     </Dropdown.Item>
