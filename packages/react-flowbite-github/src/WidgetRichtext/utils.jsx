@@ -60,8 +60,6 @@ export function remarkSlimplate ({ name = 'YOU_SHOULD_SET_THIS' }) {
         }
       }
 
-      console.log('JSX in remarkSlimplate', node)
-
       node.value = outputComponentPlaceHolder({ name, type: node.name, props })
     }
   })
