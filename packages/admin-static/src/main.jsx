@@ -8,7 +8,6 @@ import GithubProject from '@slimplate/github-git'
 import { titleize } from '@slimplate/utils'
 import Menu from './Menu.jsx'
 import './index.css'
-import inflection from 'inflection'
 
 // set this up in your .env file
 const { VITE_GITHUB_BACKEND, VITE_CORS_PROXY } = import.meta.env
@@ -173,6 +172,7 @@ const BreadCrumb = () => {
     const newIdx = paramsCopy.indexOf('new')
 
     if (newIdx !== -1) {
+      // is new
       paramsCopy.splice(newIdx, 1)
       const project = paramsCopy.splice(0, 4).join('/')
       const collection = paramsCopy[0] || false
@@ -180,7 +180,7 @@ const BreadCrumb = () => {
       setCrumbs({
         project,
         collection,
-        article: `New ${collection}`
+        article: `New ${titleize(collection)}`
       })
     } else {
       const project = paramsCopy.splice(0, 4).join('/')
@@ -209,8 +209,7 @@ const BreadCrumb = () => {
         )}
         {crumbs.project && crumbs.project !== '/' && (
           <li className='inline-flex items-center'>
-            {!hasSlimplateConfig && <ChevronRight />}
-
+            {!hasSlimplateConfig && <ChevronRight size='16' />}
             <Link href={`#${crumbs.project}`} className='inline-flex items-center ml-1 text-sm font-medium md:ml-2'>
               Collections
             </Link>
@@ -218,13 +217,13 @@ const BreadCrumb = () => {
         )}
         {crumbs.collection && (
           <li className='flex items-center'>
-            <ChevronRight />
+            <ChevronRight size='16' />
             <Link href={`#${crumbs.project}/${crumbs.collection}`} className='ml-1 text-sm font-medium md:ml-2'>{titleize(crumbs.collection)}</Link>
           </li>
         )}
         {crumbs.article && (
           <li className='flex items-center'>
-            <ChevronRight />
+            <ChevronRight size='16' />
             <span className='ml-1 text-sm font-medium md:ml-2'>{crumbs.article}</span>
           </li>
         )}

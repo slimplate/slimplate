@@ -9,12 +9,14 @@ export default function EditorView () {
 
   useEffect(() => {
     const doc = iframeRef?.current.contentDocument
-    doc.designMode = 'on'
-    doc.head.innerHTML = styleString
+    if (doc) {
+      doc.designMode = 'on'
+      doc.head.innerHTML = styleString
 
-    mdx2html(value, { name }).then(html => {
-      iframeRef.current.contentDocument.body.innerHTML = `${html}`
-    })
+      mdx2html(value, { name }).then(html => {
+        iframeRef.current.contentDocument.body.innerHTML = `${html}`
+      })
+    }
   }, [])
 
   useEffect(() => {
