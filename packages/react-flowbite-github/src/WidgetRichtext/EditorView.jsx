@@ -37,21 +37,23 @@ export default function EditorView () {
   function checkCommandStates () {
     const headers = ['h1', 'h2', 'h3', 'h4', 'h5']
     const doc = iframeRef.current.contentDocument
-    const selection = doc.getSelection()
-    const parent = selection?.focusNode?.parentNode?.localName
-    const header = headers.some(v => parent?.includes(v))
-    const quote = parent === 'blockquote' || selection?.focusNode?.parentNode?.parentNode?.localName === 'blockquote'
+    if (doc) {
+      const selection = doc.getSelection()
+      const parent = selection?.focusNode?.parentNode?.localName
+      const header = headers.some(v => parent?.includes(v))
+      const quote = parent === 'blockquote' || selection?.focusNode?.parentNode?.parentNode?.localName === 'blockquote'
 
-    setButtonStatus({
-      insertUnorderedList: doc.queryCommandState('insertUnorderedList'),
-      insertOrderedList: doc.queryCommandState('insertOrderedList'),
-      italic: !quote && doc.queryCommandState('italic'),
-      code: parent === 'code' || parent === 'pre',
-      bold: parent === 'strong' || parent === 'b',
-      link: parent === 'a',
-      header,
-      quote
-    })
+      setButtonStatus({
+        insertUnorderedList: doc.queryCommandState('insertUnorderedList'),
+        insertOrderedList: doc.queryCommandState('insertOrderedList'),
+        italic: !quote && doc.queryCommandState('italic'),
+        code: parent === 'code' || parent === 'pre',
+        bold: parent === 'strong' || parent === 'b',
+        link: parent === 'a',
+        header,
+        quote
+      })
+    }
   }
 
   function onChangeReal () {

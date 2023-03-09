@@ -18,7 +18,7 @@ export default function Menu ({ showProjectModal }) {
 
   return (
     <nav className='bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-slate-800'>
-      <div className='container flex flex-wrap items-center justify-between mx-auto'>
+      <div className='flex flex-wrap items-center justify-between mx-4'>
 
         <Link href='/' className='flex items-center dark:text-white hover:cursor-pointer'>
           <img src='https://cdn.jsdelivr.net/gh/slimplate/branding/logo.png' className='h-6 mr-3 sm:h-9' alt='Slimplate Logo' />
