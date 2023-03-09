@@ -1,12 +1,14 @@
 import ReactDOM from 'react-dom/client'
 import { useEffect, useState } from 'react'
-import { Route, Redirect, useLocation, Switch, Router } from 'wouter'
+import { ChevronRight } from 'tabler-icons-react'
+import { Route, Redirect, useLocation, Switch, Router, Link } from 'wouter'
 import { useLocationProperty, navigate } from 'wouter/use-location'
 import { useSlimplate, SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
 import GithubProject from '@slimplate/github-git'
-
+import { titleize } from '@slimplate/utils'
 import Menu from './Menu.jsx'
 import './index.css'
+import inflection from 'inflection'
 
 // set this up in your .env file
 const { VITE_GITHUB_BACKEND, VITE_CORS_PROXY } = import.meta.env
@@ -70,8 +72,6 @@ function PageDashboard () {
 
   if (window?.slimplate?.project) {
     cloneRepo()
-
-    console.log(projects)
 
     return (
       <Redirect to={`/${window?.slimplate?.project}/${window?.slimplate?.branch}`} />
@@ -163,13 +163,85 @@ const useHashLocation = () => {
   return [location, hashNavigate]
 }
 
+const BreadCrumb = () => {
+  const [location] = useHashLocation()
+  const [crumbs, setCrumbs] = useState({})
+  const hasSlimplateConfig = window?.slimplate?.project
+
+  useEffect(() => {
+    const paramsCopy = [...location.split('/')]
+    const newIdx = paramsCopy.indexOf('new')
+
+    if (newIdx !== -1) {
+      paramsCopy.splice(newIdx, 1)
+      const project = paramsCopy.splice(0, 4).join('/')
+      const collection = paramsCopy[0] || false
+
+      setCrumbs({
+        project,
+        collection,
+        article: `New ${collection}`
+      })
+    } else {
+      const project = paramsCopy.splice(0, 4).join('/')
+      const collection = paramsCopy.length ? paramsCopy.splice(0, 1)[0] : false
+      const article = paramsCopy.at(-1) || false
+
+      project.replace('_', ' ').toUpperCase()
+
+      setCrumbs({
+        project,
+        collection,
+        article: article || false
+      })
+    }
+  }, [location])
+
+  return (
+    <nav className='dark:text-slate-800 flex pb-4' aria-label='Breadcrumb'>
+      <ol className='inline-flex items-center space-x-1 md:space-x-3'>
+        {!hasSlimplateConfig && (
+          <li className='inline-flex items-center'>
+            <Link href='/' className='inline-flex items-center ml-1 text-sm font-medium md:ml-2'>
+              Projects
+            </Link>
+          </li>
+        )}
+        {crumbs.project && crumbs.project !== '/' && (
+          <li className='inline-flex items-center'>
+            {!hasSlimplateConfig && <ChevronRight />}
+
+            <Link href={`#${crumbs.project}`} className='inline-flex items-center ml-1 text-sm font-medium md:ml-2'>
+              Collections
+            </Link>
+          </li>
+        )}
+        {crumbs.collection && (
+          <li className='flex items-center'>
+            <ChevronRight />
+            <Link href={`#${crumbs.project}/${crumbs.collection}`} className='ml-1 text-sm font-medium md:ml-2'>{titleize(crumbs.collection)}</Link>
+          </li>
+        )}
+        {crumbs.article && (
+          <li className='flex items-center'>
+            <ChevronRight />
+            <span className='ml-1 text-sm font-medium md:ml-2'>{crumbs.article}</span>
+          </li>
+        )}
+      </ol>
+    </nav>
+  )
+}
+
 function App () {
   const { user } = useSlimplate()
+
   return (
     <div>
-      <Menu />
+      <Menu showProjectModal={!window?.slimplate?.project} />
       {user && (
         <div className='p-8'>
+          <BreadCrumb />
           <Router hook={useHashLocation}>
             <Route path='/' component={PageDashboard} />
             <Switch>
