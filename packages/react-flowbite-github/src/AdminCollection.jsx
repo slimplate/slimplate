@@ -1,21 +1,13 @@
 // view for managing collection
-import { useSlimplate } from './react-github.jsx'
 import { tt } from '@slimplate/utils'
-
-function CollectionStatus ({ status }) {
-  return (
-    <div className='flex gap-1'>
-      {status.length === 0 && (<div title='Contents are the same on remote' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-green-500' />)}
-      {status.includes('modify') && (<div title='Contents have diverged from remote' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-yellow-300' />)}
-      {status.includes('added') && (<div title='Files were added' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-blue-500' />)}
-      {status.includes('removed') && (<div title='Files were removed' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-red-500' />)}
-    </div>
-  )
-}
+import ButtonPush from './ButtonPush'
+import { CloudUpload } from 'tabler-icons-react'
+import { useSlimplate } from './react-github.jsx'
+import { CollectionStatus, ProjectStatus } from './status'
 
 const defaultOnCollection = (collection, project) => { document.location = `/admin/${project.full_name}/${collection.name}` }
 
-export default function AdminCollection ({ onSelect = defaultOnCollection, projectName }) {
+export default function AdminCollection ({ onSelect = defaultOnCollection, projectName, showSync = false }) {
   const { projects, status } = useSlimplate()
   const project = projects[projectName]
 
@@ -23,13 +15,31 @@ export default function AdminCollection ({ onSelect = defaultOnCollection, proje
     <>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-          <thead className='border-b border-gray-500 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+          <thead className='p-2 border-b border-gray-500 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
-              <th scope='col' className='px-6 py-3 w-2' />
+              <th scope='col' className='pl-6 py-3'>
+                {showSync && status[projectName] && <ProjectStatus showText={false} updating={status[projectName].updating} commitsAhead={status[projectName].commitsAhead} />}
+              </th>
 
-              <th scope='col' className='px-6 py-3 pl-2'>
+              <th scope='col' className='px-6 py-6 pl-2'>
                 Collections
               </th>
+
+              {showSync && (
+                <th scope='col' className='px-6 py-3 pl-2'>
+                  <ButtonPush
+                    size='xs'
+                    color='gray'
+                    projectName={projectName}
+                    title='sync local chnages with remote git (pull/push)'
+                    className='dark:border-slate-400 dark:hover:text-neutral-300 dark:hover:bg-slate-800 dark:hover:border-neutral-300 dark:text-slate-400 dark:focus:border-slate-400 dark:focus:text-slate-400 dark:focus:ring-transparent ml-auto'
+                  >
+                    <CloudUpload className='mr-2' size='16' />
+                    {' '}Sync
+                  </ButtonPush>
+                </th>
+              )}
+
             </tr>
           </thead>
           <tbody>
@@ -38,13 +48,14 @@ export default function AdminCollection ({ onSelect = defaultOnCollection, proje
                 <td onClick={e => onSelect(c, project)} className='hover:cursor-pointer px-6 py-4 w-0 pr-0'>
                   {status[projectName]?.collections && (<CollectionStatus status={status[projectName]?.collections[c.name]} />)}
                 </td>
-                <th onClick={() => onSelect(c, project)} scope='row' className='hover:cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white pl-0'>
+                <td onClick={() => onSelect(c, project)} scope='row' className='hover:cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white pl-0'>
                   <div className='flex items-center text-center whitespace-nowrap font-medium text-gray-900 dark:text-white'>
                     <div className='pl-3'>
                       <div className='text-left text-base font-semibold' key={c.name}>{tt((c.title || ''), { collection: c })}</div>
                     </div>
                   </div>
-                </th>
+                </td>
+                {showSync && <td />}
               </tr>))}
           </tbody>
         </table>

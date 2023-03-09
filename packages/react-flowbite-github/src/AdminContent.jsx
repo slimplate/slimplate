@@ -1,24 +1,14 @@
 // view for listing content of a particular collection-type
-import { Button } from 'flowbite-react'
-import { useSlimplate } from './react-github.jsx'
-import { Trash, Plus } from 'tabler-icons-react'
-import ModalDialogDelete from './ModalDialogDelete'
-import GithubProject from '@slimplate/github-git'
 import { useState } from 'react'
 import { tt } from '@slimplate/utils'
+import { Button } from 'flowbite-react'
+import { ContentStatus } from './status'
+import { Trash, Plus } from 'tabler-icons-react'
+import { useSlimplate } from './react-github.jsx'
+import GithubProject from '@slimplate/github-git'
+import ModalDialogDelete from './ModalDialogDelete'
 
 const onSelectDefault = (article, collection, project) => { document.location = `/admin/${project.name}/${collection.name}${article.filename}` }
-
-function ContentStatus ({ status }) {
-  return (
-    <>
-      {status === 'equal' && (<div title='Contents are the same on remote' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-green-500' />)}
-      {status === 'modify' && (<div title='Contents have diverged from remote' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-yellow-300' />)}
-      {status === 'added' && (<div title='File added' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-blue-500' />)}
-      {status === 'removed' && (<div title='File removed' className='h-2.5 w-2.5 rounded-full mr-2 shrink-0 bg-red-500' />)}
-    </>
-  )
-}
 
 export default function AdminContent ({ onCreate, onDelete = () => {}, onSelect = onSelectDefault, projectName, collectionName }) {
   const { projects, setProjects, fs, token, user, corsProxy, status } = useSlimplate()

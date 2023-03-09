@@ -78,14 +78,17 @@ function PageDashboard () {
   }
 
   return (
-    <AdminProjectList onSelect={p => navigate(`/${p.full_name}/${p.branch.name}`)} />
+    <AdminProjectList onSelect={p => navigate(`/${p.full_name}/${p.branch?.name || p.branch}`)} />
   )
 }
 
 function PageCollection ({ params: { username, project, branch } }) {
   const [, navigate] = useLocation()
+  const hasSlimplateConfig = window?.slimplate?.project
+
   return (
     <AdminCollection
+      showSync={hasSlimplateConfig}
       onSelect={c => navigate(`/${username}/${project}/${branch}/${c.name}`)}
       projectName={`${username}/${project}`}
     />

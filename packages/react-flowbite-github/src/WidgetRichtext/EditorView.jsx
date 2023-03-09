@@ -26,7 +26,6 @@ export default function EditorView () {
 
   useEffect(() => {
     const doc = iframeRef?.current.contentDocument
-
     doc.addEventListener('keyup', onChangeReal, false)
     doc.addEventListener('mouseup', onChangeReal, false)
     return () => {
