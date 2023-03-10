@@ -9,9 +9,6 @@ import { titleize } from '@slimplate/utils'
 import Menu from './Menu.jsx'
 import './index.css'
 
-// set this up in your .env file
-const { VITE_GITHUB_BACKEND, VITE_CORS_PROXY } = import.meta.env
-
 const ORG_LIST = `
 query ORG_LIST { 
     viewer {
@@ -260,7 +257,7 @@ function App () {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <SlimplateProvider widgets={widgets} backendURL={VITE_GITHUB_BACKEND} corsProxy={VITE_CORS_PROXY}>
+  <SlimplateProvider widgets={widgets} backendURL={window?.slimplate?.backendURL} corsProxy={window?.slimplate?.corsProxy}>
     <App />
   </SlimplateProvider>
 
