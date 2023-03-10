@@ -86,13 +86,6 @@ export default function WidgetRichText ({ editorStyles, value, onChange, name, l
             <Album size='16' />
           </ToolbarButtonImage>
 
-          <ToolbarButtonDivider />
-
-          <ToolbarButtonComponent type='Button' handler={FormEditButton}>
-            <Plus className='mr-2' size='16' />
-            Button
-          </ToolbarButtonComponent>
-
         </Toolbar>
         <EditorView />
       </EditorProvider>
