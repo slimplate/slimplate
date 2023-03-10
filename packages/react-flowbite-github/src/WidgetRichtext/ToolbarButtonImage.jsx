@@ -9,7 +9,19 @@ export default function ToolbarButtonImage ({ children, ...props }) {
   const { editor } = useEditor()
 
   function handleShowModal () {
-    setLink(editor.getSelection().focusNode.parentNode.href)
+    const selection = editor.getSelection()
+    const range = selection.getRangeAt(0)
+    const selectedNode = range.commonAncestorContainer
+
+    let containsImage = ''
+    selectedNode.childNodes.forEach((node) => {
+      if (node.nodeName === 'IMG') {
+        containsImage = node.currentSrc
+      }
+    })
+
+    setLink(containsImage)
+
     setShowModal(true)
   }
 
