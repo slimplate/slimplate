@@ -20,10 +20,10 @@ export default function Menu ({ showProjectModal }) {
     <nav className='bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-slate-800'>
       <div className='flex flex-wrap items-center justify-between mx-4'>
 
-        <Link href='/' className='flex items-center dark:text-white hover:cursor-pointer'>
+        <div className='flex items-center dark:text-white'>
           <img src='https://cdn.jsdelivr.net/gh/slimplate/branding/logo.png' className='h-6 mr-3 sm:h-9' alt='Slimplate Logo' />
-          <span className='self-center text-xl font-semibold whitespace-nowrap'>Slimplate site</span>
-        </Link>
+          <p className='self-center text-xl font-semibold whitespace-nowrap'>Content Admin</p>
+        </div>
 
         {!user && (
           <Button href={`${backendURL}?scope=${scope}&redir=${encodeURIComponent(document.location.origin)}`}>Login</Button>
