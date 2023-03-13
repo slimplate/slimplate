@@ -26,7 +26,7 @@ export default function Menu ({ showProjectModal }) {
         </div>
 
         {!user && (
-          <Button href={`${backendURL}?scope=${scope}&redir=${encodeURIComponent(document.location.origin)}`}>Login</Button>
+          <Button href={`${backendURL}?scope=${scope}&redir=${encodeURIComponent(window?.slimplate?.loginRedirectURL)}`}>Login</Button>
         )}
 
         {user && (
