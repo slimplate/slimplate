@@ -40,6 +40,7 @@ function PageDashboard () {
 
     const git = new GithubProject(fs, repo, branch, token, user, undefined, corsProxy)
     await git.init()
+
     const project = {
       ...JSON.parse(await git.read('.slimplate.json', 'utf8')),
       owner: {
@@ -60,13 +61,14 @@ function PageDashboard () {
     setProjects({ ...projects, [project.full_name]: project })
     for (const c of Object.keys(project.collections)) {
       const collection = { ...project.collections[c] }
+
       collection.content = (await git.parseCollection(collection, c)) || {}
       project.collections[c] = collection
       setProjects({ ...projects, [project.full_name]: project })
     }
   }
 
-  if (window?.slimplate?.project) {
+  if (window?.slimplate?.project && Object.values(fs).length) {
     cloneRepo()
 
     return (
