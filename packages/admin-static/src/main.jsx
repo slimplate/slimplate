@@ -26,7 +26,24 @@ query ORG_LIST {
 
 function PageDashboard () {
   const [, navigate] = useLocation()
+
+  if (window?.slimplate?.project) {
+    return (
+      <Redirect to={`/${window?.slimplate?.project}/${window?.slimplate?.branch}`} />
+    )
+  }
+
+  return (
+    <AdminProjectList onSelect={p => navigate(`/${p.full_name}/${p.branch?.name || p.branch}`)} />
+  )
+}
+
+function PageCollection ({ params: { username, project, branch } }) {
+  const [, navigate] = useLocation()
+  const hasSlimplateConfig = window?.slimplate?.project
   const { octokit, fs, token, user, corsProxy, setProjects, projects } = useSlimplate()
+
+  const [setup, setSetup] = useState(false)
 
   const cloneRepo = async () => {
     const [orgName, repoName] = window?.slimplate?.project.split('/')
@@ -68,22 +85,17 @@ function PageDashboard () {
     }
   }
 
-  if (window?.slimplate?.project && Object.values(fs).length) {
-    cloneRepo()
+  useEffect(() => {
+    if (fs) {
+      cloneRepo().then(() => {
+        setSetup(true)
+      })
+    }
+  }, [fs, username, project, branch])
 
-    return (
-      <Redirect to={`/${window?.slimplate?.project}/${window?.slimplate?.branch}`} />
-    )
+  if (!setup) {
+    return (<div>Please wait...</div>)
   }
-
-  return (
-    <AdminProjectList onSelect={p => navigate(`/${p.full_name}/${p.branch?.name || p.branch}`)} />
-  )
-}
-
-function PageCollection ({ params: { username, project, branch } }) {
-  const [, navigate] = useLocation()
-  const hasSlimplateConfig = window?.slimplate?.project
 
   return (
     <AdminCollection
