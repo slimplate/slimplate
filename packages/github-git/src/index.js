@@ -350,7 +350,8 @@ export default class GithubProject {
     const files = await this.glob(collection.files)
     const out = await Promise.all(files.map(async filename => {
       const raw = await this.read(filename, 'utf8')
-      const { data, content } = frontmatter(raw)
+      let { data, content } = frontmatter(raw)
+      data = data || {}
 
       if (collection.contentField) {
         data[collection.contentField] = content
