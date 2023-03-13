@@ -76,17 +76,17 @@ function PageCollection ({ params: { username, project, branch } }) {
     }
 
     setProjects({ ...projects, [project.full_name]: project })
-    for (const c of Object.keys(project.collections)) {
-      const collection = { ...project.collections[c] }
-
-      collection.content = (await git.parseCollection(collection, c)) || {}
-      project.collections[c] = collection
-      setProjects({ ...projects, [project.full_name]: project })
-    }
+    //     for (const c of Object.keys(project.collections)) {
+    //       const collection = { ...project.collections[c] }
+    //
+    //       collection.content = (await git.parseCollection(collection, c)) || {}
+    //       project.collections[c] = collection
+    //       setProjects({ ...projects, [project.full_name]: project })
+    //     }
   }
 
   useEffect(() => {
-    if (fs) {
+    if (fs?.init) {
       cloneRepo().then(() => {
         setSetup(true)
       })
