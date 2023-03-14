@@ -5,7 +5,7 @@ import { titleize } from '@slimplate/utils'
 import { ChevronRight } from 'tabler-icons-react'
 import { Route, useLocation, Switch, Router, Link } from 'wouter'
 import { useLocationProperty, navigate } from 'wouter/use-location'
-import { useSlimplate, SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
+import { useSlimplate, SlimplateProvider, AdminProjectList, AdminProject, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
 
 import './index.css'
 
@@ -13,17 +13,16 @@ function PageDashboard () {
   const hasSlimplateConfig = window?.slimplate?.project
 
   if (hasSlimplateConfig) {
-    const [userName, projectName] = window?.slimplate?.project.split('/')
-    const branch = window?.slimplate?.branch
+    const [userName, projectName] = window.slimplate.project.split('/')
+    const branch = window.slimplate.branch
 
     return (
-      <AdminProjectList
+      <AdminProject
+        enableSync
         branch={branch}
         userName={userName}
         projectName={projectName}
-        enableMonoView={window?.slimplate?.project}
-        onFinish={p => hashNavigate(`/${window?.slimplate?.project}/${window?.slimplate?.branch}`)}
-        onSelect={p => hashNavigate(`/${p.full_name}/${p.branch?.name || p.branch}`)}
+        onSelect={c => hashNavigate(`/${userName}/${projectName}/${branch}/${c.name}`)}
       />
     )
   }
@@ -39,7 +38,7 @@ function PageCollection ({ params: { username, projectName, branch } }) {
 
   return (
     <AdminCollection
-      showSync={hasSlimplateConfig}
+      enableSync={hasSlimplateConfig}
       onSelect={c => navigate(`/${username}/${projectName}/${branch}/${c.name}`)}
       projectName={`${username}/${projectName}`}
     />
