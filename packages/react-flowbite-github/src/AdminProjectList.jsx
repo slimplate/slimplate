@@ -1,12 +1,12 @@
-import { Avatar, Button } from 'flowbite-react'
-import { useSlimplate } from './react-github.jsx'
-import { useState } from 'react'
-import { Plus, Trash, CloudUpload } from 'tabler-icons-react'
-import ModalDialogDelete from './ModalDialogDelete'
-import ModalNewProject from './ModalNewProject'
+import { useState, useEffect } from 'react'
 import ButtonPush from './ButtonPush'
-import GithubProject from '@slimplate/github-git'
 import { ProjectStatus } from './status'
+import { Avatar, Button, Spinner } from 'flowbite-react'
+import ModalNewProject from './ModalNewProject'
+import { useSlimplate, projectSetup, ORG_LIST } from './react-github.jsx'
+import GithubProject from '@slimplate/github-git'
+import ModalDialogDelete from './ModalDialogDelete'
+import { Plus, Trash, CloudUpload } from 'tabler-icons-react'
 
 const IconGithub = props => (
   <svg aria-hidden='true' focusable='false' data-prefix='fab' data-icon='github' className='w-4 h-4 mr-2' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'>
@@ -16,10 +16,43 @@ const IconGithub = props => (
 
 const defaultOnProject = (project) => { document.location = `/admin/${project.full_name}` }
 
-export default function AdminProjectList ({ onSelect = defaultOnProject }) {
-  const { projects, setProjects, user, fs, token, corsProxy, status } = useSlimplate()
+const setupRepo = async (userName, projectName, branch, projects, setProjects, octokit, user, fs, token, corsProxy, status) => {
+  // collects organization info filtered by userName
+  const orgs = await octokit.graphql(ORG_LIST).then(r => r.viewer.organizations.nodes)
+  const org = orgs.filter(o => o.name === userName)[0]
+
+  // collects org repos filtered by projectName
+  const repos = await octokit.request(`GET /orgs/${org.login}/repos`).then(r => r.data)
+  const repo = repos.filter(r => r.name === projectName)[0]
+
+  const git = new GithubProject(fs, repo, branch, token, user, undefined, corsProxy)
+  await git.init()
+
+  return { repo, git }
+}
+
+export default function AdminProjectList ({ userName, projectName, branch, onSelect = defaultOnProject, enableMonoView = false, onFinish = () => {} }) {
+  const { projects, setProjects, octokit, user, fs, token, corsProxy, status } = useSlimplate()
   const [showProjectModal, setShowProjectModal] = useState(false)
   const [projectToDelete, setProjectToDelete] = useState(false)
+
+  useEffect(() => {
+    if (Object.values(fs).length && enableMonoView) {
+      setupRepo(userName, projectName, branch, projects, setProjects, octokit, user, fs, token, corsProxy, status).then(({ repo, git }) => {
+        projectSetup(repo, git, setProjects, projects, branch)
+        onFinish()
+      })
+    }
+  }, [enableMonoView, fs])
+
+  if (enableMonoView) {
+    return (
+      <div className='flex flex-col items-center justify-center'>
+        <Spinner size='xl' aria-label='Please wait' />
+        <p className='p-4'>Please wait...</p>
+      </div>
+    )
+  }
 
   const handleDeleteProject = async () => {
     setProjectToDelete(false)
@@ -32,6 +65,7 @@ export default function AdminProjectList ({ onSelect = defaultOnProject }) {
 
   return (
     <>
+      <ModalNewProject show={!!showProjectModal} onCancel={() => setShowProjectModal(false)} />
 
       <ModalDialogDelete
         show={!!projectToDelete}
@@ -39,8 +73,6 @@ export default function AdminProjectList ({ onSelect = defaultOnProject }) {
         onConfirm={handleDeleteProject}
         text={`Are you sure you want to delete ${projectToDelete} project?`}
       />
-
-      <ModalNewProject show={!!showProjectModal} onCancel={() => setShowProjectModal(false)} />
 
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
@@ -109,7 +141,6 @@ export default function AdminProjectList ({ onSelect = defaultOnProject }) {
           </tbody>
         </table>
       </div>
-
     </>
   )
 }

@@ -1,23 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useSlimplate } from './react-github.jsx'
+import { useSlimplate, ORG_LIST, projectSetup } from './react-github.jsx'
 import { Spinner, Badge, Pagination, Avatar, Button, Modal } from 'flowbite-react'
 import cx from 'classnames'
 import GithubProject from '@slimplate/github-git'
-
-const ORG_LIST = `
-query ORG_LIST { 
-    viewer {
-      organizations (first:100) {
-        totalCount
-        nodes {
-          name
-          login
-          avatarUrl
-        }
-      }
-    }
-  }
-`
 
 const OrgList = ({ onChange }) => {
   const { octokit, user } = useSlimplate()
@@ -211,32 +196,8 @@ export default function ModalNewProject ({ onCancel, show }) {
   const handleRepoSelected = async () => {
     const git = new GithubProject(fs, repo, repo.default_branch, token, user, undefined, corsProxy)
     await git.init()
-    const project = {
-      ...JSON.parse(await git.read('.slimplate.json', 'utf8')),
-      owner: {
-        avatar_url: repo.owner.avatar_url,
-        login: repo.owner.login
-      },
-      clone_url: repo.clone_url,
-      name: repo.name,
-      full_name: repo.full_name,
-      html_url: repo.html_url,
-      branch,
-      status: 'loading'
-    }
-
-    for (const name of Object.keys(project.collections)) {
-      project.collections[name].name = name
-    }
-
-    setProjects({ ...projects, [project.full_name]: project })
+    projectSetup(repo, git, setProjects, projects, branch)
     handleCancel()
-    for (const c of Object.keys(project.collections)) {
-      const collection = { ...project.collections[c] }
-      collection.content = (await git.parseCollection(collection, c)) || {}
-      project.collections[c] = collection
-      setProjects({ ...projects, [project.full_name]: project })
-    }
   }
 
   const handleCancel = () => {

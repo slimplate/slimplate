@@ -91,7 +91,7 @@ export default function AdminEdit ({ projectName, collectionName, filename, onSu
     article.raw = output
 
     // commit new file to git
-    const newArticle = doGit(git, output, article.filename)
+    const newArticle = await doGit(git, output, article.filename)
     onSubmit(newArticle)
   }
 

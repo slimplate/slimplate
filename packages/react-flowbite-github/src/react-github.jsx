@@ -8,6 +8,48 @@ import { Octokit } from '@octokit-next/core'
 export const context = createContext({})
 export const useSlimplate = () => useContext(context)
 
+export const ORG_LIST = `
+query ORG_LIST { 
+    viewer {
+      organizations (first:100) {
+        totalCount
+        nodes {
+          name
+          login
+          avatarUrl
+        }
+      }
+    }
+  }
+`
+
+export async function projectSetup (repo, git, setProjects, projects, branch) {
+  const project = {
+    ...JSON.parse(await git.read('.slimplate.json', 'utf8')),
+    owner: {
+      avatar_url: repo.owner.avatar_url,
+      login: repo.owner.login
+    },
+    clone_url: repo.clone_url,
+    name: repo.name,
+    full_name: repo.full_name,
+    html_url: repo.html_url,
+    branch,
+    status: 'loading'
+  }
+  for (const name of Object.keys(project.collections)) {
+    project.collections[name].name = name
+  }
+
+  setProjects({ ...projects, [project.full_name]: project })
+  for (const c of Object.keys(project.collections)) {
+    const collection = { ...project.collections[c] }
+    collection.content = (await git.parseCollection(collection, c)) || {}
+    project.collections[c] = collection
+    setProjects({ ...projects, [project.full_name]: project })
+  }
+}
+
 export const useGit = (projectName) => {
   const { projects, fs, user, token, corsProxy } = useSlimplate()
   const [git, setGit] = useState({})

@@ -1,107 +1,41 @@
+import Menu from './Menu.jsx'
 import ReactDOM from 'react-dom/client'
 import { useEffect, useState } from 'react'
+import { titleize } from '@slimplate/utils'
 import { ChevronRight } from 'tabler-icons-react'
-import { Route, Redirect, useLocation, Switch, Router, Link } from 'wouter'
+import { Route, useLocation, Switch, Router, Link } from 'wouter'
 import { useLocationProperty, navigate } from 'wouter/use-location'
 import { useSlimplate, SlimplateProvider, AdminProjectList, AdminCollection, AdminContent, AdminEdit, widgets } from '@slimplate/react-flowbite-github'
-import GithubProject from '@slimplate/github-git'
-import { titleize } from '@slimplate/utils'
-import Menu from './Menu.jsx'
+
 import './index.css'
 
-const ORG_LIST = `
-query ORG_LIST { 
-    viewer {
-      organizations (first:100) {
-        totalCount
-        nodes {
-          name
-          login
-          avatarUrl
-        }
-      }
-    }
-  }
-`
-
-const cloneRepo = async ({ octokit, username, projectName, fs, branch, token, user, corsProxy, projects, setProjects }) => {
-  const orgs = await octokit.graphql(ORG_LIST).then(r => r.viewer.organizations.nodes)
-  const org = orgs.filter(o => o.name === username)[0]
-
-  const repos = await octokit.request(`GET /orgs/${org.login}/repos`).then(r => r.data)
-  const repo = repos.filter(r => r.name === projectName)[0]
-
-  const git = new GithubProject(fs, repo, branch, token, user, undefined, corsProxy)
-  await git.init()
-
-  if (projects[projectName]) {
-    console.log('found project')
-    return
-  } else {
-    console.log('building project')
-  }
-
-  const project = {
-    ...JSON.parse(await git.read('.slimplate.json', 'utf8')),
-    owner: {
-      avatar_url: repo.owner.avatar_url,
-      login: repo.owner.login
-    },
-    clone_url: repo.clone_url,
-    name: repo.name,
-    full_name: repo.full_name,
-    html_url: repo.html_url,
-    branch,
-    status: 'loading'
-  }
-  for (const name of Object.keys(project.collections)) {
-    project.collections[name].name = name
-  }
-
-  setProjects({ ...projects, [project.full_name]: project })
-  for (const c of Object.keys(project.collections)) {
-    const collection = { ...project.collections[c] }
-    collection.content = (await git.parseCollection(collection, c)) || {}
-    project.collections[c] = collection
-    setProjects({ ...projects, [project.full_name]: project })
-  }
-}
-
 function PageDashboard () {
-  const [, navigate] = useLocation()
+  const hasSlimplateConfig = window?.slimplate?.project
 
-  if (window?.slimplate?.project) {
+  if (hasSlimplateConfig) {
+    const [userName, projectName] = window?.slimplate?.project.split('/')
+    const branch = window?.slimplate?.branch
+
     return (
-      <Redirect to={`/${window?.slimplate?.project}/${window?.slimplate?.branch}`} />
+      <AdminProjectList
+        branch={branch}
+        userName={userName}
+        projectName={projectName}
+        enableMonoView={window?.slimplate?.project}
+        onFinish={p => hashNavigate(`/${window?.slimplate?.project}/${window?.slimplate?.branch}`)}
+        onSelect={p => hashNavigate(`/${p.full_name}/${p.branch?.name || p.branch}`)}
+      />
     )
   }
 
   return (
-    <AdminProjectList onSelect={p => navigate(`/${p.full_name}/${p.branch?.name || p.branch}`)} />
+    <AdminProjectList onSelect={p => hashNavigate(`/${p.full_name}/${p.branch?.name || p.branch}`)} />
   )
 }
 
 function PageCollection ({ params: { username, projectName, branch } }) {
   const [, navigate] = useLocation()
   const hasSlimplateConfig = window?.slimplate?.project
-  const { octokit, fs, token, user, corsProxy, setProjects, projects } = useSlimplate()
-
-  const [setup, setSetup] = useState(false)
-  const [workin, setWorkin] = useState(false)
-
-  useEffect(() => {
-    if (projectName && !workin && !setup && !projects[projectName] && fs?.init) {
-      console.log('running clone', { projects, projectName, fs, setup })
-      setWorkin(true)
-      cloneRepo({ octokit, username, projectName, fs, branch, token, user, corsProxy, projects, setProjects }).then(() => {
-        setSetup(true)
-      })
-    }
-  }, [fs, username, projectName, branch, projects])
-
-  if (!setup) {
-    return (<div>Please wait...</div>)
-  }
 
   return (
     <AdminCollection
