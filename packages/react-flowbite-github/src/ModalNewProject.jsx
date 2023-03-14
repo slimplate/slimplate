@@ -196,8 +196,7 @@ export default function ModalNewProject ({ onCancel, show }) {
   const handleRepoSelected = async () => {
     const git = new GithubProject(fs, repo, repo.default_branch, token, user, undefined, corsProxy)
     await git.init()
-    projectSetup(repo, git, setProjects, projects, branch)
-    handleCancel()
+    projectSetup(repo, git, setProjects, projects, branch).then(r => handleCancel())
   }
 
   const handleCancel = () => {

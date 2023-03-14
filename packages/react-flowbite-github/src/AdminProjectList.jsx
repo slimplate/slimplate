@@ -3,6 +3,7 @@ import ButtonPush from './ButtonPush'
 import { ProjectStatus } from './status'
 import { Avatar, Button, Spinner } from 'flowbite-react'
 import ModalNewProject from './ModalNewProject'
+import AdminCollection from './AdminCollection'
 import { useSlimplate, projectSetup, ORG_LIST } from './react-github.jsx'
 import GithubProject from '@slimplate/github-git'
 import ModalDialogDelete from './ModalDialogDelete'
@@ -31,21 +32,20 @@ const setupRepo = async (userName, projectName, branch, projects, setProjects, o
   return { repo, git }
 }
 
-export default function AdminProjectList ({ userName, projectName, branch, onSelect = defaultOnProject, enableMonoView = false, onFinish = () => {} }) {
+export function AdminProject ({ userName, projectName, branch, enableSync = false, onSelect }) {
   const { projects, setProjects, octokit, user, fs, token, corsProxy, status } = useSlimplate()
-  const [showProjectModal, setShowProjectModal] = useState(false)
-  const [projectToDelete, setProjectToDelete] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (Object.values(fs).length && enableMonoView) {
+    if (Object.values(fs).length && loading) {
       setupRepo(userName, projectName, branch, projects, setProjects, octokit, user, fs, token, corsProxy, status).then(({ repo, git }) => {
         projectSetup(repo, git, setProjects, projects, branch)
-        onFinish()
+        setLoading(false)
       })
     }
-  }, [enableMonoView, fs])
+  }, [loading, fs])
 
-  if (enableMonoView) {
+  if (loading) {
     return (
       <div className='flex flex-col items-center justify-center'>
         <Spinner size='xl' aria-label='Please wait' />
@@ -53,6 +53,20 @@ export default function AdminProjectList ({ userName, projectName, branch, onSel
       </div>
     )
   }
+
+  return (
+    <AdminCollection
+      enableSync={enableSync}
+      onSelect={onSelect}
+      projectName={`${userName}/${projectName}`}
+    />
+  )
+}
+
+export function AdminProjectList ({ userName, projectName, branch, onSelect = defaultOnProject, onFinish = () => {} }) {
+  const { projects, setProjects, user, fs, token, corsProxy, status } = useSlimplate()
+  const [showProjectModal, setShowProjectModal] = useState(false)
+  const [projectToDelete, setProjectToDelete] = useState(false)
 
   const handleDeleteProject = async () => {
     setProjectToDelete(false)

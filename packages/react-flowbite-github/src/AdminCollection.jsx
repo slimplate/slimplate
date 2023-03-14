@@ -7,7 +7,7 @@ import { CollectionStatus, ProjectStatus } from './status'
 
 const defaultOnCollection = (collection, project) => { document.location = `/admin/${project.full_name}/${collection.name}` }
 
-export default function AdminCollection ({ onSelect = defaultOnCollection, projectName, showSync = false }) {
+export default function AdminCollection ({ onSelect = defaultOnCollection, projectName, enableSync = false }) {
   const { projects, status } = useSlimplate()
   const project = projects[projectName]
 
@@ -18,14 +18,14 @@ export default function AdminCollection ({ onSelect = defaultOnCollection, proje
           <thead className='p-2 border-b border-gray-500 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
               <th scope='col' className='pl-6 py-3'>
-                {showSync && status[projectName] && <ProjectStatus showText={false} updating={status[projectName].updating} commitsAhead={status[projectName].commitsAhead} />}
+                {enableSync && status[projectName] && <ProjectStatus showText={false} updating={status[projectName].updating} commitsAhead={status[projectName].commitsAhead} />}
               </th>
 
               <th scope='col' className='px-6 py-6 pl-2'>
                 Collections
               </th>
 
-              {showSync && (
+              {enableSync && (
                 <th scope='col' className='px-6 py-3 pl-2'>
                   <ButtonPush
                     size='xs'
@@ -55,7 +55,7 @@ export default function AdminCollection ({ onSelect = defaultOnCollection, proje
                     </div>
                   </div>
                 </td>
-                {showSync && <td />}
+                {enableSync && <td />}
               </tr>))}
           </tbody>
         </table>
